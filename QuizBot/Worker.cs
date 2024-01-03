@@ -197,8 +197,6 @@ public class Worker : BackgroundService
             if (conversationMode[chatId] == ConversationMode.Wait)
             {
                 var chatIdList = _googleSheetIntegration.GetChatId();
-                _googleSheetIntegration.Dispose();
-
 
                 if (chatIdList.Contains(chatId))
                 {
@@ -229,7 +227,6 @@ public class Worker : BackgroundService
                 data.Add(dataItem);
 
                 _googleSheetIntegration.SaveData("ChatId!A:B", data);
-                _googleSheetIntegration.Dispose();
 
                 conversationMode[chatId] = ConversationMode.Wait;
 
