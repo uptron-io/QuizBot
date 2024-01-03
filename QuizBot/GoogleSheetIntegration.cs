@@ -20,7 +20,7 @@ namespace QuizBot
     {
         static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static readonly string ApplicationName = "Quiz Bot";
-        static readonly string SpreadsheetId = "1KrRDQGICbUzzXxPBN-1n9kOhjXC6uLJpHquJ_GkeO4Q";
+        static readonly string SpreadsheetId = "1KrRDQGICbUzzXxPBN-1n9kOhjXC6uLJpHquJ_GkeO4Q"; //Sheet Id
         static SheetsService service;
 
 

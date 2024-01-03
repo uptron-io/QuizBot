@@ -32,7 +32,7 @@ public class Worker : BackgroundService
 
         TimeZoneInfo tzi = Utils.GetCurrentTimeZone();
 
-        var botClient = new TelegramBotClient("6659784166:AAECAdZVxzXdqT9-EibU-MiTppZYFKTe3z4");
+        var botClient = new TelegramBotClient("6659784166:AAECAdZVxzXdqT9-EibU-MiTppZYFKTe3z4"); //Your token from Bot Father
 
         ReceiverOptions receiverOptions = new()
         {
