@@ -8,6 +8,7 @@ public class Program
             .ConfigureServices(services =>
             {
                 services.AddHostedService<Worker>();
+                services.AddSingleton<IGoogleSheetIntegration, GoogleSheetIntegration>();
             })
             .Build();
 
