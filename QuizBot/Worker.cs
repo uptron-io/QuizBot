@@ -137,28 +137,20 @@ public class Worker : BackgroundService
                 await SendTextMessage(botClient, chatId, settings.FinalWords);
 
                 //Save answers
-                _googleSheetIntegration.SaveData("Answers!A:E", ConventToList(result));
+                _googleSheetIntegration.SaveData("Answers!A:E", ConvertToList(result));
             }
         }
     }
 
-    private IList<IList<object>> ConventToList(List<QuizResultItem> items)
+    private IList<IList<object>> ConvertToList(List<QuizResultItem> items)
     {
-        IList<IList<object>> ret = new List<IList<object>>();
-
-        foreach (var item in items)
+        return items.Select(item => new List<object>
         {
-            IList<object> tmpItem = new List<object>();
-            tmpItem.Add(item.QuizName);
-            tmpItem.Add(item.Name);
-            tmpItem.Add(item.Answer);
-            tmpItem.Add(item.ChatId);
-            tmpItem.Add(item.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"));
-
-            ret.Add(tmpItem);
-        }
-
-        return ret;
+            item.Name,
+            item.Answer,
+            item.ChatId,
+            item.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")
+        }).Cast<IList<object>>().ToList();
     }
 
     async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)

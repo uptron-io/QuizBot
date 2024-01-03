@@ -43,55 +43,43 @@ namespace QuizBot
         public QuizSettings GetQuizSettings(string sheetName)
         {
             var introduction = GetString(sheetName, "B1:F1");
-            var finalWords = GetString(sheetName, "B2:F2");
+            var endText = GetString(sheetName, "B2:F2");
 
-            return new QuizSettings(introduction, finalWords);
+            return new QuizSettings(introduction, endText);
         }
 
         public string GetLastChatId()
         {
-            List<string> ret = new List<string>();
             var table = GetValue("ChatId", "A2:A20");
 
             if (table != null && table.Any())
             {
-                foreach (var record in table)
-                {
-                    string chatId = (string)record[0];
-
-                    ret.Add(chatId);
-                }
+                return (string)table.Last()[0];
             }
 
-            return ret.Last();
+            return string.Empty;
         }
 
         public List<QuizItem> GetQuizItems(string sheetName)
         {
-            List<QuizItem> ret = new List<QuizItem>();
-            var table = this.GetValue(sheetName, "A8:I108");
+            var quizItems = new List<QuizItem>();
+            var table = GetValue(sheetName, "A8:I108");
 
-            if (table == null) return ret;
+            if (table == null) return quizItems;
 
             foreach (var record in table)
             {
                 string name = (string)record[0];
 
-                List<string> items = new List<string>();
-                for (int i = 0; i < (record.Count - 1); i++)
-                {
-                    string tmpValue = (string)record[1 + i];
+                var items = record.Skip(1) // Skip the name field.
+                                  .Select(r => r.ToString()) // Convert each record to string.
+                                  .Where(s => !string.IsNullOrEmpty(s)) // Filter out empty strings.
+                                  .ToList();
 
-                    if (string.IsNullOrEmpty(tmpValue) == false)
-                    {
-                        items.Add(tmpValue);
-                    }
-                }
-
-                ret.Add(new QuizItem(name, items));
+                quizItems.Add(new QuizItem(name, items));
             }
 
-            return ret;
+            return quizItems;
         }
 
         public List<string> GetChatId()
